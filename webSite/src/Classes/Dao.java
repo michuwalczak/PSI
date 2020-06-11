@@ -43,13 +43,13 @@ public final class Dao {
         return (Timestamp) results.get(0).get(DataBase.Blockades.CREATION_DATE);
     }
 
-    public static Map<String, String> getActions(User user) {
-        Map<String, String> actions = new HashMap<>();
+    public static Map<Timestamp, String> getActions(User user) {
+        Map<Timestamp, String> actions = new HashMap<>();
         List<Map<String, Object>> results = DataBase.select(SQLParser.getActions(user));
 
         //convert results from database to Map<String, String>
         for(Map<String, Object> row: results)
-            actions.put(row.get(DataBase.Actions.NAME).toString(), row.get(DataBase.Actions.DATE).toString());
+            actions.put((Timestamp) row.get(DataBase.Actions.DATE),row.get(DataBase.Actions.NAME).toString());
 
         return actions;
     }

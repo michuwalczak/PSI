@@ -26,7 +26,7 @@ public class Register extends HttpServlet {
             PageHandler.goTo("/Menu.jsp", request, response, new Comment(result));
         }
         else{
-            PageHandler.goTo("/ChangePassword.jsp", request, response, new Comment(result));
+            PageHandler.goTo("/Register.jsp", request, response, new Comment(result));
         }
     }
 }

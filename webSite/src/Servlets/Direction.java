@@ -35,9 +35,18 @@ public class Direction extends HttpServlet {
             gotoPage("/Login", request, response);
         }
         else if (request.getParameter("Register") != null) {
+            Comment comment = new Comment();
+            comment.setComment("");
+            HttpSession session = request.getSession();
+            session.setAttribute("comment", comment);
             gotoPage("/Register.jsp", request, response);
         }
         else if (request.getParameter("ChangePassword") != null) {
+            Comment comment = new Comment();
+            comment.setComment("");
+            HttpSession session = request.getSession();
+            session.setAttribute("comment", comment);
+
             gotoPage("/ChangePassword.jsp", request, response);
         }
         else if (request.getParameter("Logged") != null) {
@@ -52,7 +61,7 @@ public class Direction extends HttpServlet {
             session.setAttribute("comment", comment);
 
             User user = (User)session.getAttribute("user");
-            Dao.addAction(user, "Logged out");
+            Dao.addAction(user, "Użytkownik wylogowany");
 
             gotoPage("/Menu.jsp", request, response);
         }
@@ -63,6 +72,10 @@ public class Direction extends HttpServlet {
             gotoPage("/Register", request, response);
         }
         else if (request.getParameter("Menu") != null) {
+            Comment comment = new Comment();
+            comment.setComment("");
+            HttpSession session = request.getSession();
+            session.setAttribute("comment", comment);
             gotoPage("/Menu.jsp", request, response);
         }
     }

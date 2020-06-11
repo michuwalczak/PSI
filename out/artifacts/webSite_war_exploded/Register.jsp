@@ -12,6 +12,41 @@
 <html>
 <head>
     <title>Register</title>
+    <style>
+        input[type=text] {
+            padding:5px;
+            border:2px solid gray;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+        input[type=text]:focus {
+            border-color:black;
+        }
+        input[type=password] {
+            padding:5px;
+            border:2px solid gray;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+        input[type=password]:focus {
+            border-color:black;
+        }
+        input[type=submit] {
+            padding:5px 15px;
+            background:gray;
+            border:0 none;
+            cursor:pointer;
+            border-radius: 5px;
+        }
+        input[name=ChangePassword]:hover {
+            background-color: black;
+            color: white;
+        }
+        input[name=CommitRegister]:hover {
+            background-color: green;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 <H1>Rejestracja</H1>

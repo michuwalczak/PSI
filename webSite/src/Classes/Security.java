@@ -1,6 +1,7 @@
 package Classes;
 
 import java.sql.Timestamp;
+import java.util.regex.Pattern;
 
 public final class Security {
     public enum ValidationResult {
@@ -17,7 +18,8 @@ public final class Security {
         PasswordUpToDate,
         PasswordNotUsed,
         PasswordUsed,
-        PasswordLengthCorrect,
+        PasswordPatternCorrect,
+        PasswordPatternError,
         PasswordLengthError,
         RegistrationValidated,
         PasswordChangeValidated,
@@ -56,7 +58,7 @@ public final class Security {
             result = validatePasswordLength(user.getPassword());
 
         //step 4: check final result
-        if(result == ValidationResult.PasswordLengthCorrect)
+        if(result == ValidationResult.PasswordPatternCorrect)
             result = ValidationResult.RegistrationValidated;
 
         return result;
@@ -81,7 +83,7 @@ public final class Security {
             result = validatePasswordLength(newPassword);
 
         //step 5: check final result
-        if(result == ValidationResult.PasswordLengthCorrect)
+        if(result == ValidationResult.PasswordPatternCorrect)
             result = ValidationResult.PasswordChangeValidated;
 
         return result;
@@ -103,6 +105,7 @@ public final class Security {
             if (Date.isTimeUp(blockadeCreationDate, Config.BLOCKADE_TIME)) {
                 Dao.unblockUser(user);
                 Dao.updateErrorCounter(user, 0);
+                Dao.addAction(user, "Konto odblokowane");
                 return ValidationResult.AccountActive;
             }
             else {
@@ -121,8 +124,11 @@ public final class Security {
         else{
             int errCounter = Dao.getErrorCounter(user);
             Dao.updateErrorCounter(user, ++errCounter);
-            if(errCounter >= Config.MAX_LOGIN_ERROR) Dao.blockUser(user);
-
+            if(errCounter >= Config.MAX_LOGIN_ERROR) {
+                Dao.blockUser(user);
+                Dao.addAction(user, "Konto zablokowane");
+            }
+            Dao.addAction(user, "Nieprawidłowe hasło");
             return ValidationResult.PasswordWrong;
         }
     }
@@ -132,6 +138,7 @@ public final class Security {
             return ValidationResult.PasswordCorrect;
         }
         else{
+            Dao.addAction(user, "Nieprawidłowe hasło");
             return ValidationResult.PasswordWrong;
         }
     }
@@ -140,6 +147,7 @@ public final class Security {
         Timestamp passwordCreationDate = Dao.getPasswordActivationDate(user);
 
         if (Date.isTimeUp(passwordCreationDate, Config.PASSWORD_EXPIRE_TIME)){
+            Dao.addAction(user, "Hasło wygasło");
             return ValidationResult.PasswordExpired;
         }
         else{
@@ -169,10 +177,17 @@ public final class Security {
 
     private static ValidationResult validatePasswordLength(String password){
         if(password.length() >= Config.MIN_PASSWORD_LENGTH){
-            return ValidationResult.PasswordLengthCorrect;
+            Pattern textPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z]).+$");
+            if(textPattern.matcher(password).matches()){
+                return ValidationResult.PasswordPatternCorrect;
+            }
+            else{
+                return ValidationResult.PasswordPatternError;
+            }
         }
         else{
             return ValidationResult.PasswordLengthError;
         }
     }
+
 }

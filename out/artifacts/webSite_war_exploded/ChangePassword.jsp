@@ -15,6 +15,32 @@
 <html>
 <head>
     <title>Change Password</title>
+    <style>
+        input[type=password] {
+            padding:5px;
+            border:2px solid gray;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+        input[type=password]:focus {
+            border-color:black;
+        }
+        input[type=submit] {
+            padding:5px 15px;
+            background:gray;
+            border:0 none;
+            cursor:pointer;
+            border-radius: 5px;
+        }
+        input[name=CommitPassword]:hover {
+            background-color: green;
+            color: white;
+        }
+        input[name=LogOff]:hover {
+            background-color: red;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 <H1>Zmiana hasła</H1>

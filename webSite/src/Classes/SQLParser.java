@@ -64,9 +64,9 @@ public final class SQLParser {
     }
 
     public static String getActions(User user) {
-        return String.format("SELECT NAME, DATE " +
+        return String.format("SELECT TOP 50 NAME, DATE " +
                 "FROM ACTIONS " +
-                "WHERE USER_LOGIN = '%s'", user.getLogin());
+                "WHERE USER_LOGIN = '%s' ORDER BY DATE DESC", user.getLogin());
     }
 
     public static String getPasswordActivationDate(User user) {
