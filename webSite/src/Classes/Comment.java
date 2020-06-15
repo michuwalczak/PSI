@@ -33,7 +33,7 @@ public class Comment {
             case PasswordUsed:
                 return "Hasło było już użyte";
             case PasswordLengthError:
-                return String.format("Hasło jest zbyt krótkie. Minimalna długośc znaków to: %d", Config.MIN_PASSWORD_LENGTH);
+                return String.format("Hasło jest zbyt krótkie. Minimalna długość znaków to: %d", Config.MIN_PASSWORD_LENGTH);
             case PasswordPatternError:
                 return "Hasło powinno zawierać małe i duże litery";
             case AccountBlocked:
@@ -43,7 +43,7 @@ public class Comment {
             case PasswordChangeValidated:
                 return "Hasło zostało zmienione";
             case Error:
-                return "Błąd procesu uwierzytalniania";
+                return "Błąd procesu uwierzytelniania";
             default:
                 return "";
         }
